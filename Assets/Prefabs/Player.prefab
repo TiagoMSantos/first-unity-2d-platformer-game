@@ -139,6 +139,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 8
   jumpForce: 12
+  knockBackLength: 0
+  knockBackForce: 0
   playerRigidBody: {fileID: 4858265812409907920}
   groundCheckPoint: {fileID: 4858265813767292207}
   whatIsGround:
@@ -177,6 +179,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentHealth: 0
   maxHealth: 6
+  invincibleLength: 0
 --- !u!1 &4858265813767292206
 GameObject:
   m_ObjectHideFlags: 0
