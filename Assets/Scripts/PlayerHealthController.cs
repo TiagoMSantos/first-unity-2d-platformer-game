@@ -7,6 +7,7 @@ public class PlayerHealthController : MonoBehaviour {
     public static PlayerHealthController instance;
     public int currentHealth, maxHealth;
     public float invincibleLength;
+    public GameObject deathEffect;
 
     private float invincibleCounter;
     private SpriteRenderer spriteRender;
@@ -36,6 +37,7 @@ public class PlayerHealthController : MonoBehaviour {
              if (currentHealth <= 0) {
                  currentHealth = 0;
                  // gameObject.SetActive(false);
+                 Instantiate(deathEffect, transform.position, transform.rotation);
                  RespawnPlayer();
 
              } else {
@@ -50,6 +52,18 @@ public class PlayerHealthController : MonoBehaviour {
 
     public void RestorePlayerHealth() {
         currentHealth = maxHealth;
+    }
+
+    public void AddHealth() {
+        currentHealth++;
+        if (currentHealth > maxHealth) {
+            currentHealth = maxHealth;
+        }
+        UIController.instance.UpdateHealthDisplay();
+    }
+
+    public bool CheckIfLifeIsFull() {
+        return currentHealth == maxHealth;
     }
 
     private void ChangePlayerAlpha(float alpha) {

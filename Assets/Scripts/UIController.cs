@@ -8,17 +8,18 @@ public class UIController : MonoBehaviour {
     public static UIController instance;
     public Image heart1, heart2, heart3;
     public Sprite heartFull, heartHalf, heartEmpty;
+    public Text gemLabel;
 
     private void Awake() {
         instance = this;
     }
 
     void Start() {
-        
+        UpdateGemCount();
     }
 
     void Update() {
-        
+
     }
 
     public void UpdateHealthDisplay() {
@@ -65,12 +66,16 @@ public class UIController : MonoBehaviour {
                 heart3.sprite = heartEmpty;
 
                 break;
-            default: 
+            default:
                 heart1.sprite = heartEmpty;
                 heart2.sprite = heartEmpty;
                 heart3.sprite = heartEmpty;
 
                 break;
         }
+    }
+
+    public void UpdateGemCount() {
+          gemLabel.text = LevelManager.instance.getCollectedGems();
     }
 }

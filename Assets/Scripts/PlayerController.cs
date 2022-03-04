@@ -6,7 +6,11 @@ public class PlayerController : MonoBehaviour {
 
     public static PlayerController instance;
 
-    public float moveSpeed, jumpForce, knockBackLength, knockBackForce;
+    public float moveSpeed;
+    public float jumpForce;
+    public float knockBackLength;
+    public float knockBackForce;
+    public float bounceForce;
     private bool _isGrounded;
     private bool _canDoubleJump;
     private float _knockBackCounter;
@@ -33,7 +37,7 @@ public class PlayerController : MonoBehaviour {
             playerRigidBody.velocity = new Vector2(moveSpeed * Input.GetAxisRaw("Horizontal"), playerRigidBody.velocity.y);
 
             _isGrounded = Physics2D.OverlapCircle(groundCheckPoint.position, .2f, whatIsGround);
-        
+
             if (_isGrounded) {
                 _canDoubleJump = true;
             }
@@ -57,6 +61,10 @@ public class PlayerController : MonoBehaviour {
 
         _animator.SetFloat("moveSpeed", Mathf.Abs(playerRigidBody.velocity.x));
         _animator.SetBool("isGrounded", _isGrounded);
+    }
+
+    public void Bounce() {
+        playerRigidBody.velocity = new Vector2(playerRigidBody.velocity.x, bounceForce);
     }
 
     private void Jump() {

@@ -6,6 +6,7 @@ public class LevelManager : MonoBehaviour {
 
     public static LevelManager instance;
     public float waitToRespawn;
+    public int gemsCollected;
 
     private void Awake() {
       instance = this;
@@ -21,6 +22,14 @@ public class LevelManager : MonoBehaviour {
 
     public void RespawnPlayer() {
         StartCoroutine(RespawnCoroutine());
+    }
+
+    public void CollectGem() {
+        gemsCollected++;
+    }
+
+    public string getCollectedGems() {
+        return gemsCollected.ToString();
     }
 
     private IEnumerator RespawnCoroutine() {
