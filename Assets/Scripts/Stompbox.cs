@@ -5,6 +5,8 @@ using UnityEngine;
 public class Stompbox : MonoBehaviour {
 
   public GameObject deathEffect;
+  public GameObject collectible;
+  [Range(0, 100)]public float chanceToDrop;
 
     void Start() {
 
@@ -19,6 +21,18 @@ public class Stompbox : MonoBehaviour {
             other.transform.parent.gameObject.SetActive(false);
             Instantiate(deathEffect, other.transform.position, other.transform.rotation);
             PlayerController.instance.Bounce();
+
+            float dropSelect = Random.Range(0, 100f);
+
+            if (dropSelect <= chanceToDrop) {
+                Instantiate(collectible, other.transform.position, other.transform.rotation);
+            }
+
+            PlaySoundEffect();
         }
+    }
+
+    private void PlaySoundEffect() {
+        AudioManager.instance.PlaySFX(AudioEffectsEnum.ENEMY_EXPLODE);
     }
 }

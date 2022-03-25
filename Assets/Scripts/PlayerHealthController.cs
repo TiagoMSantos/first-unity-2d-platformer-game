@@ -44,6 +44,7 @@ public class PlayerHealthController : MonoBehaviour {
                  invincibleCounter = invincibleLength;
                  ChangePlayerAlpha(.5f);
                  CheckKnockBack();
+                 PlaySoundEffect();
              }
 
              UIController.instance.UpdateHealthDisplay();
@@ -76,5 +77,9 @@ public class PlayerHealthController : MonoBehaviour {
 
     private void RespawnPlayer() {
         LevelManager.instance.RespawnPlayer();
+    }
+
+    private void PlaySoundEffect() {
+        AudioManager.instance.PlaySFX(AudioEffectsEnum.PLAYER_HURT);
     }
 }

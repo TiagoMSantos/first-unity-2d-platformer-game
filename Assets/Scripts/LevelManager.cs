@@ -9,7 +9,7 @@ public class LevelManager : MonoBehaviour {
     public int gemsCollected;
 
     private void Awake() {
-      instance = this;
+        instance = this;
     }
 
     void Start() {
@@ -34,7 +34,11 @@ public class LevelManager : MonoBehaviour {
 
     private IEnumerator RespawnCoroutine() {
         DeactivatePlayer();
-        yield return new WaitForSeconds(waitToRespawn);
+        PlaySoundEffect();
+        yield return new WaitForSeconds(waitToRespawn - (1f / UIController.instance.GetFadeSpeed()));
+        UIController.instance.FadeToBlack();
+        yield return new WaitForSeconds((1f / UIController.instance.GetFadeSpeed()) + .2f);
+        UIController.instance.FadeFromBlack();
         ActivatePlayer();
         SetPlayerPosition();
         RestorePlayerHealth();
@@ -55,5 +59,9 @@ public class LevelManager : MonoBehaviour {
     private void RestorePlayerHealth() {
         PlayerHealthController.instance.RestorePlayerHealth();
         UIController.instance.UpdateHealthDisplay();
+    }
+
+    private void PlaySoundEffect() {
+        AudioManager.instance.PlaySFX(AudioEffectsEnum.PLAYER_DEATH);
     }
 }

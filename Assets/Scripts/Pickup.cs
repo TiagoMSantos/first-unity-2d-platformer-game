@@ -39,10 +39,12 @@ public class Pickup : MonoBehaviour {
     private void CollectGem() {
         LevelManager.instance.CollectGem();
         UpdateGemCount();
+        PlaySoundEffect(true);
     }
 
     private void CollectHealth() {
         PlayerHealthController.instance.AddHealth();
+        PlaySoundEffect(false);
     }
 
     private bool CheckFullHealth() {
@@ -61,5 +63,14 @@ public class Pickup : MonoBehaviour {
 
     private void UpdateGemCount() {
         UIController.instance.UpdateGemCount();
+    }
+
+    private void PlaySoundEffect(bool isGem) {
+        if (isGem) {
+            AudioManager.instance.PlaySFX(AudioEffectsEnum.PICKUP_GEM);
+        } else {
+            AudioManager.instance.PlaySFX(AudioEffectsEnum.PICKUP_HEALTH);
+        }
+
     }
 }

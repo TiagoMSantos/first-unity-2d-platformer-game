@@ -32,31 +32,33 @@ public class PlayerController : MonoBehaviour {
 
     void Update() {
 
-        if (_knockBackCounter <= 0) {
-            // GetAxis
-            playerRigidBody.velocity = new Vector2(moveSpeed * Input.GetAxisRaw("Horizontal"), playerRigidBody.velocity.y);
+        if (!PauseMenu.instance.isPaused) {
+            if (_knockBackCounter <= 0) {
+                // GetAxis
+                playerRigidBody.velocity = new Vector2(moveSpeed * Input.GetAxisRaw("Horizontal"), playerRigidBody.velocity.y);
 
-            _isGrounded = Physics2D.OverlapCircle(groundCheckPoint.position, .2f, whatIsGround);
+                _isGrounded = Physics2D.OverlapCircle(groundCheckPoint.position, .2f, whatIsGround);
 
-            if (_isGrounded) {
-                _canDoubleJump = true;
-            }
-
-            if (Input.GetButtonDown("Jump")) {
                 if (_isGrounded) {
-                    Jump();
-                } else {
-                    if (_canDoubleJump) {
+                    _canDoubleJump = true;
+                }
+
+                if (Input.GetButtonDown("Jump")) {
+                    if (_isGrounded) {
                         Jump();
-                        _canDoubleJump = false;
+                    } else {
+                        if (_canDoubleJump) {
+                            Jump();
+                            _canDoubleJump = false;
+                        }
                     }
                 }
-            }
 
-            CheckFlip();
-        } else {
-            _knockBackCounter -= Time.deltaTime;
-            PushBack();
+                CheckFlip();
+            } else {
+                _knockBackCounter -= Time.deltaTime;
+                PushBack();
+            }
         }
 
         _animator.SetFloat("moveSpeed", Mathf.Abs(playerRigidBody.velocity.x));
@@ -65,10 +67,12 @@ public class PlayerController : MonoBehaviour {
 
     public void Bounce() {
         playerRigidBody.velocity = new Vector2(playerRigidBody.velocity.x, bounceForce);
+        PlaySoundEffect();
     }
 
     private void Jump() {
         playerRigidBody.velocity = new Vector2(playerRigidBody.velocity.x, jumpForce);
+        PlaySoundEffect();
     }
 
     private void CheckFlip() {
@@ -92,5 +96,9 @@ public class PlayerController : MonoBehaviour {
         } else {
             playerRigidBody.velocity = new Vector2(knockBackForce, playerRigidBody.velocity.y);
         }
+    }
+
+    private void PlaySoundEffect() {
+        AudioManager.instance.PlaySFX(AudioEffectsEnum.PLAYER_JUMP);
     }
 }
